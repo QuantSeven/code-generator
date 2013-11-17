@@ -1,0 +1,100 @@
+<#assign className = table.className>
+<#assign classNameLower = className?uncap_first> 
+<#assign pk = table.primaryKeyColumns[0]> 
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="${dao_package}.${className}Dao">
+	<resultMap id="${className}ResultMap" type="${model_package}.${className}">
+		<#list table.primaryKeyColumns as pkColumn>
+		<id property="${pkColumn.columnNameLower}" column="${pkColumn}" />
+		</#list><#list table.columns as column><#if !column.pk>
+		<result property="${column.columnNameLower}" column="${column}" />
+		</#if>
+		</#list>
+	</resultMap>
+
+	<!-- 定义可重用的SQL代码段，可以包含在其他语句中 -->
+	<sql id="base_column">
+		 <#list table.columns as column><#if column_index==0>${column}<#else>
+		 ,${column}</#if></#list>
+	</sql>
+	
+	<!-- 定义可重用的WHERE SQL公共代码段，可以包含在其他语句中 -->
+	<sql id="where_column">
+		<#list table.columns as column>
+		<if test="${column.columnNameLower} != null and ${column.columnNameLower} != ''">
+			AND ${column} = <#noparse>#{</#noparse>${column.columnNameLower},jdbcType=${column.sqlTypeName}<#noparse>}</#noparse>
+		</if>
+		</#list>
+	</sql>
+	
+	<select id="find" resultMap="${className}ResultMap">
+	
+		SELECT	<include refid="base_column" />
+		FROM	${table.sqlName}
+		WHERE	${pk}=<#noparse>#{</#noparse>${pk.columnNameLower},jdbcType=${pk.sqlTypeName}<#noparse>}</#noparse>
+	
+	</select>
+	
+	<select id="findByPk" resultMap="${className}ResultMap">
+	
+		SELECT	<include refid="base_column" />
+		FROM	${table.sqlName}
+		WHERE	<#list table.primaryKeyColumns as pkColumn>${pkColumn}=<#noparse>#{</#noparse>${pkColumn.columnNameLower},jdbcType=${pkColumn.sqlTypeName}<#noparse>}</#noparse>
+		  <#if pkColumn_has_next>AND	</#if></#list>
+	</select>
+
+	<select id="findByPage" resultMap="${className}ResultMap">
+	
+		SELECT	<include refid="base_column" />
+		FROM	${table.sqlName}
+		<where>
+			<include refid="where_column" />
+		</where>
+		
+	</select>
+	
+	<insert id="insert" parameterType="${model_package}.${className}">
+	
+		INSERT INTO ${table.sqlName}
+				(<#list table.columns as column><#if column_index == 0>${column}<#else>,${column}</#if>
+				</#list>)
+		VALUES	(<#list table.columns as column><#if column_index == 0><#noparse>#{</#noparse>${column.columnNameLower},jdbcType=${column.sqlTypeName}}<#else>,<#noparse>#{</#noparse>${column.columnNameLower}}</#if>
+				</#list>)
+				
+	</insert>
+	
+	<update id="update" parameterType="${model_package}.${className}">
+	
+		UPDATE	${table.sqlName}
+		<set>
+			<#list table.columns as column>
+			<if test="${column.columnNameLower} != null and ${column.columnNameLower} != ''">
+				${column} = <#noparse>#{</#noparse>${column.columnNameLower},jdbcType=${column.sqlTypeName}},
+			</if>
+			</#list>
+		</set>
+		WHERE	<#list table.primaryKeyColumns as pkColumn>${pkColumn} = <#noparse>#{</#noparse>${pkColumn.columnNameLower},jdbcType=${pkColumn.sqlTypeName}<#noparse>}</#noparse>
+		  <#if pkColumn_has_next>AND	</#if></#list>
+	</update>
+	
+	<delete id="deleteByPk">
+	
+		DELETE	FROM ${table.sqlName}
+		WHERE	<#list table.primaryKeyColumns as pkColumn>${pkColumn} = <#noparse>#{</#noparse>${pkColumn.columnNameLower},jdbcType=${pkColumn.sqlTypeName}<#noparse>}</#noparse>
+		  <#if pkColumn_has_next>AND	</#if></#list>
+	</delete>
+	
+	<delete id="delete">
+	
+		DELETE	FROM ${table.sqlName}
+		WHERE	${pk}
+		   IN
+    	<foreach item="${classNameLower}Id" index="index" collection="array" open="(" separator="," close=")">
+	  		<#noparse>#{</#noparse>${classNameLower}Id<#noparse>}</#noparse> 
+		</foreach>
+		  
+	</delete>
+</mapper> 
