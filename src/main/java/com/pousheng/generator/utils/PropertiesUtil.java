@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import com.pousheng.generator.core.model.ModelVO;
 import com.pousheng.generator.database.model.Table;
 
 public class PropertiesUtil {
@@ -55,6 +54,7 @@ public class PropertiesUtil {
 	public static Boolean I18N_FLAG = true;
 
 	public static Map<Object, Object> templateModelData = new HashMap<Object, Object>(); // Freemark模板数据
+	public static PropertiesUtil propertiesUtil = null;
 
 	public PropertiesUtil() {
 	}
@@ -74,14 +74,6 @@ public class PropertiesUtil {
 		JAVASCRIPT_PATH = WEB_ROOT_PATH + "/" + getProperty("js_path", JAVASCRIPT_PATH);
 		I18N_PATH = RESOURCES_ROOT_PATH + "/" + getProperty("i18n_path", I18N_PATH);
 
-		BASE_PACKAGE = getProperty("basepackage", BASE_PACKAGE);
-		DAO_PACKAGE = BASE_PACKAGE + "." + getProperty("dao_package", DAO_PACKAGE);
-		XML_PACKAGE = getProperty("xmlbasepackage", XML_PACKAGE);
-		SERVICE_PACKAGE = BASE_PACKAGE + "." + getProperty("service_package", SERVICE_PACKAGE);
-		SERVICEIMPL_PACKAGE = BASE_PACKAGE + "." + getProperty("serviceimpl_package", SERVICEIMPL_PACKAGE);
-		CONTROLLER_PACKAGE = BASE_PACKAGE + "." + getProperty("controller_package", CONTROLLER_PACKAGE);
-		MODEL_PACKAGE = BASE_PACKAGE + "." + getProperty("model_package", MODEL_PACKAGE);
-
 		try {
 			FileUtil.listFiles(new File(I18N_PATH), I18N_FILES);
 		} catch (IOException e) {
@@ -89,37 +81,17 @@ public class PropertiesUtil {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
-	public static Map<Object, Object> initTemplateModelData(Table table, ModelVO model) {
-		String subPackageName = model.getPackageName();
-		if (!StringUtil.isNullOrEmpty(subPackageName)) {
-			DAO_PACKAGE = DAO_PACKAGE + "." + subPackageName;
-			XML_PACKAGE = XML_PACKAGE + "." + subPackageName;
-			SERVICE_PACKAGE = SERVICE_PACKAGE + "." + subPackageName;
-			SERVICEIMPL_PACKAGE = SERVICEIMPL_PACKAGE + "." + subPackageName;
-			CONTROLLER_PACKAGE = CONTROLLER_PACKAGE + "." + subPackageName;
-			MODEL_PACKAGE = MODEL_PACKAGE + "." + subPackageName;
-			JSP_PATH = JSP_PATH + "/" + subPackageName;
-			JAVASCRIPT_PATH = JAVASCRIPT_PATH + "/" + subPackageName;
-		}
-		// TemplateModel templateModel = new
-		// TemplateModel(tableVO.getTableName(), tableVO.getClassName(),
-		// BASE_PACKAGE, subPackageName, DAO_PACKAGE, XML_PACKAGE,
-		// SERVICE_PACKAGE, SERVICEIMPL_PACKAGE, MODEL_PACKAGE,
-		// CONTROLLER_PACKAGE, JSP_PATH, JAVASCRIPT_PATH,
-		// tableVO.getTemplateType());
-		templateModelData.put("className", model.getClassName());
-		templateModelData.put("template_type", model.getTemplateType());
-		templateModelData.put("base_package", BASE_PACKAGE);
-		templateModelData.put("sub_package_path", StringUtil.replace(model.getPackageName(), ".", "/"));
-		templateModelData.put("xmlbasepackage", XML_PACKAGE);
-		templateModelData.put("dao_package", DAO_PACKAGE);
-		templateModelData.put("service_package", SERVICE_PACKAGE);
-		templateModelData.put("serviceimpl_package", SERVICEIMPL_PACKAGE);
-		templateModelData.put("model_package", MODEL_PACKAGE);
-		templateModelData.put("controller_package", CONTROLLER_PACKAGE);
-		templateModelData.put("jsp_path", JSP_PATH);
-		templateModelData.put("js_path", JAVASCRIPT_PATH);
+	public static void refreshData() {
+		BASE_PACKAGE = getProperty("basepackage", BASE_PACKAGE);
+		DAO_PACKAGE = BASE_PACKAGE + "." + getProperty("dao_package", DAO_PACKAGE);
+		XML_PACKAGE = getProperty("xmlbasepackage", XML_PACKAGE);
+		SERVICE_PACKAGE = BASE_PACKAGE + "." + getProperty("service_package", SERVICE_PACKAGE);
+		SERVICEIMPL_PACKAGE = BASE_PACKAGE + "." + getProperty("serviceimpl_package", SERVICEIMPL_PACKAGE);
+		CONTROLLER_PACKAGE = BASE_PACKAGE + "." + getProperty("controller_package", CONTROLLER_PACKAGE);
+		MODEL_PACKAGE = BASE_PACKAGE + "." + getProperty("model_package", MODEL_PACKAGE);
+	}
+
+	public static Map<Object, Object> initTemplateModelData(Table table) {
 		templateModelData.put("table", table);
 		return templateModelData;
 	}

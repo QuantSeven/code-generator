@@ -1,6 +1,5 @@
 package com.pousheng.generator.core.model;
 
-
 public class SubTableVO implements ModelVO {
 
 	private static final long serialVersionUID = -4631397551699720526L;
@@ -8,6 +7,8 @@ public class SubTableVO implements ModelVO {
 	private String className;
 	private String packageName;
 	private String templateType;
+
+	private String[] relationKeys;
 
 	public String getTableName() {
 		return tableName;
@@ -39,6 +40,14 @@ public class SubTableVO implements ModelVO {
 
 	public void setTemplateType(String templateType) {
 		this.templateType = templateType;
+	}
+
+	public String[] getRelationKeys() {
+		return relationKeys;
+	}
+
+	public void setRelationKeys(String parentTableKey, String subTableKey) {
+		this.relationKeys = new String[] { parentTableKey, subTableKey };
 	}
 
 }

@@ -1,5 +1,4 @@
-<#assign classNameLower = className?uncap_first>   
-<#assign pk = table.primaryKeyColumns[0]>   
+<#include "common.ftl"> 
 package ${service_package};
 
 import ${model_package}.${className};

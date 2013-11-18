@@ -162,16 +162,4 @@ public class StringUtil extends StringUtils {
 		buf.append(str.substring(1));
 		return buf.toString();
 	}
-
-	public static String replaceFileName(Map<Object, Object> paramMap, String fileName) {
-		String result = fileName;
-		for (Map.Entry<Object, Object> entry : paramMap.entrySet()) {
-			String key = (String) entry.getKey();
-			Object value = entry.getValue();
-			String strValue = value == null ? "" : value.toString();
-			result = replace(result, "${" + key + "}", strValue);
-		}
-		return result;
-	}
-
 }

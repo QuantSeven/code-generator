@@ -7,6 +7,8 @@ import java.util.List;
 
 import com.pousheng.generator.database.DbUtils;
 import com.pousheng.generator.database.Model;
+import com.pousheng.generator.template.model.TemplateModel;
+import com.pousheng.generator.utils.StringUtil;
 
 /**
  * 每一张数据库表
@@ -27,12 +29,17 @@ public class Table implements Model {
 	private String tableRemark;
 	private List<Column> columns = new ArrayList<Column>();
 	private List<Column> primaryKeyColumns = new ArrayList<Column>(0);
+	private String[] foreignKeys;
 	private List<Table> childrens = new ArrayList<Table>(0);
 	private String ownerSynonymName;
 	private String catalog = DbUtils.getInstance().catalog;
 	private String schema = DbUtils.getInstance().schema;
 	private ForeignKeys exportedKeys;
 	private ForeignKeys importedKeys;
+
+	public boolean isSubTableFlag = false;
+
+	private TemplateModel templateModel;
 
 	public static String getFkTableName() {
 		return FKTABLE_NAME;
@@ -195,5 +202,38 @@ public class Table implements Model {
 	public void setImportedKeys(ForeignKeys importedKeys) {
 		this.importedKeys = importedKeys;
 	}
+
+	public TemplateModel getTemplateModel() {
+		return templateModel;
+	}
+
+	public void setTemplateModel(TemplateModel templateModel) {
+		this.templateModel = templateModel;
+	}
+
+	public String[] getForeignKeys() {
+		if (foreignKeys == null) {
+			return new String[2];
+		}
+		return foreignKeys;
+	}
+
+	public void setForeignKeys(String[] foreignKeys) {
+		this.foreignKeys = foreignKeys;
+	}
+
+	// 此处获取Java类的列名如 USER_ID 转换为 UserId
+	public String getForeignKeyName() {
+		return StringUtil.makeAllWordFirstLetterUpperCase(getForeignKeys()[1]);
+	}
+
+	public Boolean getIsSubTableFlag() {
+		return isSubTableFlag;
+	}
+
+	public void setIsSubTableFlag(Boolean isSubTableFlag) {
+		this.isSubTableFlag = isSubTableFlag;
+	}
+	
 
 }

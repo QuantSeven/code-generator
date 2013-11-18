@@ -6,7 +6,7 @@ public class TemplateModel implements Serializable {
 
 	private static final long serialVersionUID = 6825627833324412857L;
 	private String tableName;// 表名称
-	private String className;// 类名称
+	private String className;
 	private String basePackage; // 父集包名
 	private String subPackage; // 子包
 	private String daoPackage; // dao
@@ -15,28 +15,12 @@ public class TemplateModel implements Serializable {
 	private String serviceImplPackage;
 	private String modelPackage;
 	private String controllerPackage;
-	private String jspPackage;
-	private String javaScriptPackage;
+	private String jspPath;
+	private String javaScriptPath;
 	private String templateType;
+	private String subPackagePath;
 
 	public TemplateModel() {
-
-	}
-
-	public TemplateModel(String tableName, String className, String basePackage, String subPackage, String daoPackage, String xmlPackage, String servicePackage, String serviceImplPackage, String modelPackage, String controllerPackage, String jspPackage, String javaScriptPackage, String templateType) {
-		this.tableName = tableName;
-		this.className = className;
-		this.basePackage = basePackage;
-		this.subPackage = subPackage;
-		this.daoPackage = daoPackage;
-		this.xmlPackage = xmlPackage;
-		this.servicePackage = servicePackage;
-		this.serviceImplPackage = serviceImplPackage;
-		this.modelPackage = modelPackage;
-		this.controllerPackage = controllerPackage;
-		this.jspPackage = jspPackage;
-		this.javaScriptPackage = javaScriptPackage;
-		this.templateType = templateType;
 	}
 
 	public String getTableName() {
@@ -119,20 +103,20 @@ public class TemplateModel implements Serializable {
 		this.controllerPackage = controllerPackage;
 	}
 
-	public String getJspPackage() {
-		return jspPackage;
+	public String getJspPath() {
+		return jspPath;
 	}
 
-	public void setJspPackage(String jspPackage) {
-		this.jspPackage = jspPackage;
+	public void setJspPath(String jspPath) {
+		this.jspPath = jspPath;
 	}
 
-	public String getJavaScriptPackage() {
-		return javaScriptPackage;
+	public String getJavaScriptPath() {
+		return javaScriptPath;
 	}
 
-	public void setJavaScriptPackage(String javaScriptPackage) {
-		this.javaScriptPackage = javaScriptPackage;
+	public void setJavaScriptPath(String javaScriptPath) {
+		this.javaScriptPath = javaScriptPath;
 	}
 
 	public String getTemplateType() {
@@ -141,6 +125,14 @@ public class TemplateModel implements Serializable {
 
 	public void setTemplateType(String templateType) {
 		this.templateType = templateType;
+	}
+
+	public String getSubPackagePath() {
+		return subPackagePath;
+	}
+
+	public void setSubPackagePath(String subPackagePath) {
+		this.subPackagePath = subPackagePath;
 	}
 
 }

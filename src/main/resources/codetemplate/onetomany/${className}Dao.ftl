@@ -1,6 +1,5 @@
-<#assign classNameLower = className?uncap_first>   
-<#assign pk = table.primaryKeyColumns[0]>   
-package ${dao_package};
+<#include "common.ftl"> 
+package ${table.templateModel.daoPackage};
 
 import org.apache.ibatis.annotations.Param;
 

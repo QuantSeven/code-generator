@@ -1,9 +1,13 @@
-<#assign classNameLower = className?uncap_first> 
+<#include "common.ftl"> 
 package ${model_package};
 
 import framework.generic.annotation.Column;
 import framework.generic.annotation.Table;
 import framework.generic.model.PersistentModel;
+
+<#list table.childrens?if_exists as child>
+import ${child.templateModel.modelPackage}.${child.className};
+</#list>
 
 <#if table.tableRemark!="">
 /**
@@ -35,9 +39,7 @@ public class ${className} implements PersistentModel {
 	private ${column.javaType} ${column.columnNameLower};
 	</#if>
 	</#list>
-	<#list table.childrens as column>
-		${column.className} //
-	</#list>
+	
 	<#list table.columns as column>
 	public ${column.javaType} get${column.columnName}() {
 		return this.${column.columnNameLower};

@@ -1,5 +1,4 @@
-<#assign classNameLower = className?uncap_first>   
-<#assign pk = table.primaryKeyColumns[0]> 
+<#include "common.ftl"> 
 $("document").readyfn(function() {
 	var context = this, selectItem = null, selectItems = null;
 	var i18n${className} = pousheng.getI18N('${classNameLower}'); // 初始化的时候获取国际化的文字
