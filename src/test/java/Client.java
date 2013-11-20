@@ -8,17 +8,17 @@ import com.pousheng.generator.core.model.TableVO;
 
 public class Client {
 
-	// @Test
-	public void generator() {
+	@Test
+	public void generatorOneTable() {
 		try {
 			TableVO tableVO = new TableVO();
-			tableVO.setClassName("Team");
-			tableVO.setPackageName("team");
-			tableVO.setTableName("t_team");
+			tableVO.setClassName("Role");
+			tableVO.setPackageName("role");
+			tableVO.setTableName("t_role");
 			tableVO.setTemplateType(TemplateType.MODEL);
-			GeneratorOneTable table = new GeneratorOneTable();
-			table.generatorOneTable(tableVO);
-			System.out.println(table);
+			GeneratorOneTable oneTable = new GeneratorOneTable();
+			oneTable.generatorOneTable(tableVO);
+			System.out.println("生成成功");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

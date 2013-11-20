@@ -1,39 +1,36 @@
-<#assign classNameLower = className?uncap_first>   
-<#assign pk = table.primaryKeyColumns[0]> 
+<#include "common.ftl">  
 $("document").readyfn(function() {
 	var context = this, selectItem = null, selectItems = null;
-	var i18n${className} = pousheng.getI18N('${classNameLower}'); // 初始化的时候获取国际化的文字
-	var ${classNameLower}ListGrid = $("#${classNameLower}ListGrid").datagrid();
+	var i18n${className} = pousheng.getI18N('${classNameLowerCase}'); // 初始化的时候获取国际化的文字
+	var ${classNameLowerCase}ListGrid = $("#${classNameLowerCase}ListGrid").datagrid();
 
 	/****************************--双击查看记录--******************************/
-	${classNameLower}ListGrid.datagrid("option", "onDblClickRow", function(index, item) {
+	${classNameLowerCase}ListGrid.datagrid("option", "onDblClickRow", function(index, item) {
 		selectItem = item;
 		<#if template_type == 'model'> 
 		showView();
 		<#else>
-		$("#indexTab").navTab("load", "${classNameLower}/view", {
-			"${pk.columnNameLower}" : item.${pk.columnNameLower}
+		$("#indexTab").navTab("load", "${classNameLowerCase}/view", {
+			"${pk.columnNameLowerCase}" : item.${pk.columnNameLowerCase}
 		}, function() {
 			$(this).children().viewform();
 		});
 		</#if>
-		
-		
 	});
 	<#if template_type == 'model'> 
 	
 	/****************************--添加记录--*********************************/
-	$("#${classNameLower}-toolbar").on("click","#add",function(){
+	$("#${classNameLowerCase}-toolbar").on("click","#add",function(){
 		var options = {
 			title : i18n${className}.txt.add,
-			url : '${classNameLower}/addForm'
+			url : '${classNameLowerCase}/addForm'
 		};
 		modelDialog(options);
 	});
 	
 	/****************************--编辑记录--*********************************/
-	$("#${classNameLower}-toolbar").on("click","#edit",function(){
-		selectItems = ${classNameLower}ListGrid.datagrid("getSelectedRows");
+	$("#${classNameLowerCase}-toolbar").on("click","#edit",function(){
+		selectItems = ${classNameLowerCase}ListGrid.datagrid("getSelectedRows");
 		if ($.isEmptyObject(selectItems)) {
 			pousheng.warnMsg(i18n${className}.msg.selectonerecordedit);
 			return;
@@ -45,40 +42,40 @@ $("document").readyfn(function() {
 		selectItem = selectItems[0];
 		var options = {
 			title : i18n${className}.txt.add,
-			url : '${classNameLower}/editForm',
+			url : '${classNameLowerCase}/editForm',
 			requestParam : {
-				${pk.columnNameLower} : selectItem.${pk.columnNameLower}
+				${pk.columnNameLowerCase} : selectItem.${pk.columnNameLowerCase}
 			}
 		};
 		modelDialog(options);
 	});
 	
 	/****************************--删除记录--*********************************/
-	$("#${classNameLower}-toolbar").on("click","#delete",function(){
-		selectItems = ${classNameLower}ListGrid.datagrid("getSelectedRowsIdKey");
+	$("#${classNameLowerCase}-toolbar").on("click","#delete",function(){
+		selectItems = ${classNameLowerCase}ListGrid.datagrid("getSelectedRowsIdKey");
 		if (!selectItems) {
 			pousheng.warnMsg(i18n${className}.msg.selectonerecorddelete);
 			return;
 		}
 		pousheng.confirm(i18n${className}.msg.confirmdelete, function(r) {
 			if (r) {
-				pousheng.ajaxData("${classNameLower}/deleteAll", {
+				pousheng.ajaxData("${classNameLowerCase}/deleteAll", {
 					data : {
-						${classNameLower}Ids : selectItems
+						${classNameLowerCase}Ids : selectItems
 					}
 					
 				}).done(function() {
-					${classNameLower}ListGrid.datagrid("refresh", null, null);
+					${classNameLowerCase}ListGrid.datagrid("refresh", null, null);
 				});
 			}
 		});
 	});
 	/****************************--查看记录信息--*********************************/
-	$("#${classNameLower}-toolbar").on("click","#view",function(){
-		selectItems = ${classNameLower}ListGrid.datagrid("getSelectedRows");
+	$("#${classNameLowerCase}-toolbar").on("click","#view",function(){
+		selectItems = ${classNameLowerCase}ListGrid.datagrid("getSelectedRows");
 		if ($.isEmptyObject(selectItems)) {
 			pousheng.warnMsg(i18n${className}.msg.selectonerecordview);
-			return;
+			return;	
 		}
 		if($.isArray(selectItems) && selectItems.length > 1) {
 			pousheng.warnMsg(i18n${className}.msg.onerecordview);
@@ -88,8 +85,8 @@ $("document").readyfn(function() {
 		showView();
 	});
 	/****************************--查询--*********************************/
-	$("#${classNameLower}-toolbar").on("click","#search",function(){
-         ${classNameLower}ListGrid.datagrid("refresh",null,$(context).find("form").getFieldValues());
+	$("#${classNameLowerCase}-toolbar").on("click","#search",function(){
+         ${classNameLowerCase}ListGrid.datagrid("refresh",null,$(context).find("form").getFieldValues());
 	});
 	
 	
@@ -99,9 +96,9 @@ $("document").readyfn(function() {
 			title : i18n${className}.txt.view,
 			width : 600,
 			height : 400,
-			remote : "${classNameLower}/view",
+			remote : "${classNameLowerCase}/view",
 			requestParam : {
-				${pk.columnNameLower} : selectItem.${pk.columnNameLower}
+				${pk.columnNameLowerCase} : selectItem.${pk.columnNameLowerCase}
 			},
 			ready : function(event, context) {
 				// 弹出框口页面的初始化操作
@@ -141,7 +138,7 @@ $("document").readyfn(function() {
 					var $this = $(this);
 					$this.find("form").trigger("submit", {
 						success : function(data) {
-							${classNameLower}ListGrid.datagrid("refresh", null, null);
+							${classNameLowerCase}ListGrid.datagrid("refresh", null, null);
 							$this.modal("close");
 						}
 					});

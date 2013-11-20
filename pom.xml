@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.pousheng.generator</groupId>
+	<groupId>code.generator</groupId>
 	<artifactId>code-generator</artifactId>
 	<version>2.0.3</version>
 	<name>code-generator</name>
@@ -16,49 +16,8 @@
 		<log4j.version>1.2.17</log4j.version>
 		<freemarker.version>2.3.19</freemarker.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>	<!--
-	<repositories>
-	 如有Nexus私服, 取消注释并指向正确的服务器地�? 
-		<repository>
-			<id>nexus</id>
-			<name>pousheng-nexus-repository</name>
-			<url>http://gzsvn.pousheng.com:8081/nexus/content/groups/public</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
-
-	<pluginRepositories>
-		<pluginRepository>
-			<id>nexus</id>
-			<name>pousheng-nexus-repository</name>
-			<url>http://gzsvn.pousheng.com:8081/nexus/content/groups/public</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</pluginRepository>
-	</pluginRepositories>
-	-->
-	<!-- maven 使用 nexus私服 mvn deploy命令发布项目到nexus私服 
-	<distributionManagement>
-		<repository>
-			<id>pousheng-nexus-releases</id>
-			<url>http://gzsvn.pousheng.com:8081/nexus/content/repositories/releases/</url>
-		</repository>
-		<snapshotRepository>
-			<id>pousheng-nexus-snapshots</id>
-			<url>http://gzsvn.pousheng.com:8081/nexus/content/repositories/snapshots/</url>
-			<uniqueVersion>true</uniqueVersion>
-		</snapshotRepository>
-	</distributionManagement>
-	-->
+	</properties>	
+	
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>

@@ -47,6 +47,7 @@ public class TemplateModelUtil {
 		// 还可以设置其他的值
 		// ...
 		templateModelMap.put("className", table.getClassName());
+		templateModelMap.put("classNameLowerCase", table.getClassNameLowerCase());
 		return templateModelMap;
 	}
 

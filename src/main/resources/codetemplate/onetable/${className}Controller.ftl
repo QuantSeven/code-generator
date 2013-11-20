@@ -1,5 +1,4 @@
-<#assign classNameLower = className?uncap_first>   
-<#assign pk = table.primaryKeyColumns[0]>   
+<#include "common.ftl">  
 package ${controller_package};
 
 
@@ -24,48 +23,48 @@ import framework.generic.utils.string.StringUtil;
 import framework.generic.utils.webutils.ServletUtil;
 
 @Controller
-@RequestMapping("${classNameLower}/*")
+@RequestMapping("${classNameLowerCase}/*")
 public class ${className}Controller extends AbstractController<${className}, ${pk.javaType}> {
 
-	private ${className}Service ${classNameLower}Service;
+	private ${className}Service ${classNameLowerCase}Service;
 
 	@Resource
-	public void set${className}Service(${className}Service ${classNameLower}Service) {
-		this.${classNameLower}Service = ${classNameLower}Service;
+	public void set${className}Service(${className}Service ${classNameLowerCase}Service) {
+		this.${classNameLowerCase}Service = ${classNameLowerCase}Service;
 	}
 
 	/*-------------------------------列表显示页面---------------------------------*/
 	@Override
 	public ModelAndView index(HttpServletRequest request, HttpServletResponse response) {
-		return new ModelAndView("${sub_package_path}/${classNameLower}_list");
+		return new ModelAndView("${sub_package_path}/${classNameLowerCase}_list");
 	}
 
 	@Override
 	public DataGrid dataGrid(PageRequest pageRequest, HttpServletRequest request, HttpServletResponse response) {
 		Map<String, Object> paramMap = ServletUtil.getParametersMapStartingWith(request, "filter_");
 		pageRequest.setParameter(paramMap);
-		DataGrid dataGrid = ${classNameLower}Service.getDatagrid(pageRequest);
+		DataGrid dataGrid = ${classNameLowerCase}Service.getDatagrid(pageRequest);
 		return dataGrid;
 	}
 
 	/*--------------------------------添加操作-----------------------------------*/
 	@Override
 	public ModelAndView addFrom(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		request.setAttribute("action", "${classNameLower}/insert");
-		return new ModelAndView("${sub_package_path}/${classNameLower}_edit");
+		request.setAttribute("action", "${classNameLowerCase}/insert");
+		return new ModelAndView("${sub_package_path}/${classNameLowerCase}_edit");
 	}
 
 	@Override
-	public Json insert(${className} ${classNameLower}, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public Json insert(${className} ${classNameLowerCase}, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		try {
-			int insertRecords = ${classNameLower}Service.create(${classNameLower});
+			int insertRecords = ${classNameLowerCase}Service.create(${classNameLowerCase});
 			if (insertRecords <= 0) {
 				return error(getMessage("msg.error.add"));
 			}
 			<#if template_type == 'model'> 
 			return success(getMessage("msg.success.add"));
 			<#else>
-			return success("${classNameLower}/index",getMessage("msg.success.add"));
+			return success("${classNameLowerCase}/index",getMessage("msg.success.add"));
 			</#if>
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -75,24 +74,24 @@ public class ${className}Controller extends AbstractController<${className}, ${p
 
 	/*--------------------------------编辑操作-----------------------------------*/
 	@Override
-	public ModelAndView editForm(${pk.javaType} ${pk.columnNameLower}, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		${className} ${classNameLower} = ${classNameLower}Service.get(${pk.columnNameLower});
-		request.setAttribute("${classNameLower}", ${classNameLower});
-		request.setAttribute("action", "${classNameLower}/update");
-		return new ModelAndView("${sub_package_path}/${classNameLower}_edit");
+	public ModelAndView editForm(${pk.javaType} ${pk.columnNameLowerCase}, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		${className} ${classNameLowerCase} = ${classNameLowerCase}Service.get(${pk.columnNameLowerCase});
+		request.setAttribute("${classNameLowerCase}", ${classNameLowerCase});
+		request.setAttribute("action", "${classNameLowerCase}/update");
+		return new ModelAndView("${sub_package_path}/${classNameLowerCase}_edit");
 	}
 
 	@Override
-	public Json update(${className} ${classNameLower}, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public Json update(${className} ${classNameLowerCase}, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		try {
-			int updatedRecords = ${classNameLower}Service.modify(${classNameLower});
+			int updatedRecords = ${classNameLowerCase}Service.modify(${classNameLowerCase});
 			if (updatedRecords <= 0) {
 				return error(getMessage("msg.error.add"));
 			}
 			<#if template_type == 'model'> 
 			return success(getMessage("msg.success.update"));
 			<#else>
-			return success("${classNameLower}/index",getMessage("msg.success.update"));
+			return success("${classNameLowerCase}/index",getMessage("msg.success.update"));
 			</#if>
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -103,9 +102,9 @@ public class ${className}Controller extends AbstractController<${className}, ${p
 	/*--------------------------------删除操作-----------------------------------*/
 	<#if template_type == 'model'> 
 	@Override
-	public Json deleteAll(${pk.javaType}[] ${classNameLower}Ids, HttpServletRequest request, HttpServletResponse response) {
+	public Json deleteAll(${pk.javaType}[] ${classNameLowerCase}Ids, HttpServletRequest request, HttpServletResponse response) {
 		try {
-			int deletedRecords = ${classNameLower}Service.removeAll(${classNameLower}Ids);
+			int deletedRecords = ${classNameLowerCase}Service.removeAll(${classNameLowerCase}Ids);
 			if (deletedRecords <= 0) {
 				return error(getMessage("msg.error.delete"));
 			} 
@@ -117,13 +116,13 @@ public class ${className}Controller extends AbstractController<${className}, ${p
 	}
 	<#else>
 	@Override
-	public Json delete(${pk.javaType} ${pk.columnNameLower}, HttpServletRequest request, HttpServletResponse response) {
+	public Json delete(${pk.javaType} ${pk.columnNameLowerCase}, HttpServletRequest request, HttpServletResponse response) {
 		try {
-			int deletedRecords = ${classNameLower}Service.removeAll(${pk.columnNameLower});
+			int deletedRecords = ${classNameLowerCase}Service.removeAll(${pk.columnNameLowerCase});
 			if (deletedRecords <= 0) {
 				return error(getMessage("msg.error.delete"));
 			} 
-			return success("${classNameLower}/index",getMessage("msg.success.delete"));
+			return success("${classNameLowerCase}/index",getMessage("msg.success.delete"));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return error(getMessage("msg.error.delete"));
@@ -132,19 +131,19 @@ public class ${className}Controller extends AbstractController<${className}, ${p
 	</#if>
 	/*--------------------------------查看操作-----------------------------------*/
 	@Override
-	public ModelAndView view(${pk.javaType} ${pk.columnNameLower}, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		request.setAttribute("${classNameLower}", ${classNameLower}Service.get(${pk.columnNameLower}));
+	public ModelAndView view(${pk.javaType} ${pk.columnNameLowerCase}, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		request.setAttribute("${classNameLowerCase}", ${classNameLowerCase}Service.get(${pk.columnNameLowerCase}));
 		<#if template_type == 'inner'> 
 		request.setAttribute("hideBtnSave", true);
 		</#if>
-		return new ModelAndView("${sub_package_path}/${classNameLower}_edit");
+		return new ModelAndView("${sub_package_path}/${classNameLowerCase}_edit");
 	}
 	
 	/*--------------------------------验证操作-----------------------------------*/
 	@Override
-	public boolean validatePk(${pk.javaType} ${pk.columnNameLower}, HttpServletRequest request, HttpServletResponse response) {
-		${className} ${classNameLower} = ${classNameLower}Service.get(${pk.columnNameLower});
-		if (StringUtil.isNullOrEmpty(${classNameLower})) {
+	public boolean validatePk(${pk.javaType} ${pk.columnNameLowerCase}, HttpServletRequest request, HttpServletResponse response) {
+		${className} ${classNameLowerCase} = ${classNameLowerCase}Service.get(${pk.columnNameLowerCase});
+		if (StringUtil.isNullOrEmpty(${classNameLowerCase})) {
 			return true;
 		}
 		return false;

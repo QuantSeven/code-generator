@@ -29,7 +29,7 @@ public class Table implements Model {
 	private String tableRemark;
 	private List<Column> columns = new ArrayList<Column>();
 	private List<Column> primaryKeyColumns = new ArrayList<Column>(0);
-	private String[] foreignKeys;
+	private String[] relationKeys;
 	private List<Table> childrens = new ArrayList<Table>(0);
 	private String ownerSynonymName;
 	private String catalog = DbUtils.getInstance().catalog;
@@ -37,7 +37,7 @@ public class Table implements Model {
 	private ForeignKeys exportedKeys;
 	private ForeignKeys importedKeys;
 
-	public boolean isSubTableFlag = false;
+	public boolean isSubTable = false;
 
 	private TemplateModel templateModel;
 
@@ -211,29 +211,54 @@ public class Table implements Model {
 		this.templateModel = templateModel;
 	}
 
-	public String[] getForeignKeys() {
-		if (foreignKeys == null) {
-			return new String[2];
+	public String[] getRelationKeys() {
+		return relationKeys;
+	}
+
+	public void setRelationKeys(String[] relationKeys) {
+		this.relationKeys = relationKeys;
+	}
+
+	public Column getParentRelationColumn() {
+		Column parentRelationColumn = null;
+		if (getRelationKeys() != null) {
+			for (Column column : columns) {
+				if (column.getSqlName().equals(getRelationKeys()[0])) {
+					parentRelationColumn = column;
+					break;
+				}
+			}
 		}
-		return foreignKeys;
+		return parentRelationColumn;
+	}
+	public Column getRelationColumn() {
+		Column relationColumn = null;
+		if (getRelationKeys() != null) {
+			for (Column column : columns) {
+				if (column.getSqlName().equals(getRelationKeys()[1])) {
+					relationColumn = column;
+					break;
+				}
+			}
+		}
+		return relationColumn;
 	}
 
-	public void setForeignKeys(String[] foreignKeys) {
-		this.foreignKeys = foreignKeys;
-	}
-
-	// 此处获取Java类的列名如 USER_ID 转换为 UserId
-	public String getForeignKeyName() {
-		return StringUtil.makeAllWordFirstLetterUpperCase(getForeignKeys()[1]);
-	}
-
-	public Boolean getIsSubTableFlag() {
-		return isSubTableFlag;
-	}
-
-	public void setIsSubTableFlag(Boolean isSubTableFlag) {
-		this.isSubTableFlag = isSubTableFlag;
+	//首字母小写
+	public String getClassNameLowerCase() {
+		return StringUtil.uncapitalize(getClassName());
 	}
 	
+	//全部字母小写
+	public String getClassNameAllLowerCase() {
+		return StringUtil.lowerCase(getClassName());
+	}
 
+	public boolean getIsSubTable() {
+		return isSubTable;
+	}
+
+	public void setSubTable(boolean isSubTable) {
+		this.isSubTable = isSubTable;
+	}
 }

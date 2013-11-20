@@ -70,7 +70,6 @@ public class Column {
 	 * 注释
 	 */
 	private String _comment;
-	
 
 	public Column(Table table, int sqlType, String sqlTypeName, String sqlName, int size, int decimalDigits, boolean isPk, boolean isFk, boolean isNullable, boolean isIndexed, boolean isUnique, String defaultValue, String comment) {
 		_table = table;
@@ -160,13 +159,19 @@ public class Column {
 		_isFk = flag;
 	}
 
-	//此处获取Java类的列名如 USER_ID 转换为 UserId 
+	// 此处获取Java类的列名如 USER_ID 转换为 UserId
 	public String getColumnName() {
 		return StringUtil.makeAllWordFirstLetterUpperCase(getSqlName());
 	}
-	//此处获取Java类的列名如 USER_ID 转换为 userId 
-	public String getColumnNameLower() {
+
+	// 此处获取Java类的列名如 USER_ID 转换为 userId
+	public String getColumnNameLowerCase() {
 		return StringUtil.uncapitalize(getColumnName());
+	}
+
+	// 全部字母小写
+	public String getColumnNameAllLowerCase() {
+		return StringUtil.lowerCase(getColumnName());
 	}
 
 	public boolean getIsNotIdOrVersionField() {

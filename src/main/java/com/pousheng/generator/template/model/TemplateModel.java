@@ -20,7 +20,7 @@ public class TemplateModel implements Serializable {
 	private String templateType;
 	private String subPackagePath;
 
-	public TemplateModel() {
+	public TemplateModel() { 
 	}
 
 	public String getTableName() {

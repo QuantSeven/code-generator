@@ -1,1 +1,0 @@
-<#assign model_package = table.templateModel.modelPackage> 

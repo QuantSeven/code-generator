@@ -89,6 +89,9 @@ public class PropertiesUtil {
 		SERVICEIMPL_PACKAGE = BASE_PACKAGE + "." + getProperty("serviceimpl_package", SERVICEIMPL_PACKAGE);
 		CONTROLLER_PACKAGE = BASE_PACKAGE + "." + getProperty("controller_package", CONTROLLER_PACKAGE);
 		MODEL_PACKAGE = BASE_PACKAGE + "." + getProperty("model_package", MODEL_PACKAGE);
+		JSP_PATH = WEB_ROOT_PATH + "/" + getProperty("jsp_path", JSP_PATH);
+		JAVASCRIPT_PATH = WEB_ROOT_PATH + "/" + getProperty("js_path", JAVASCRIPT_PATH);
+		I18N_PATH = RESOURCES_ROOT_PATH + "/" + getProperty("i18n_path", I18N_PATH);
 	}
 
 	public static Map<Object, Object> initTemplateModelData(Table table) {
