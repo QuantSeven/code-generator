@@ -61,6 +61,8 @@ public interface ${className}Service {
 	
 	Integer create${child.className}(${child.className} ${child.classNameLowerCase});
 
+	Integer modify${child.className}(${child.className} ${child.classNameLowerCase});
+
 	${child.className} get${child.className}ByPk(<#list child.primaryKeyColumns as pkColumn>${pkColumn.javaType} ${pkColumn.columnNameLowerCase}<#if pkColumn_has_next>, </#if></#list>);
 
 	Integer remove${child.className}(<#list child.primaryKeyColumns as pkColumn>${pkColumn.javaType} ${pkColumn.columnNameLowerCase}<#if pkColumn_has_next>, </#if></#list>);

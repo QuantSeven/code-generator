@@ -34,6 +34,7 @@ public class GeneratorOneToMany extends Generator {
 				Table subTable = DbUtils.getInstance().getTable(sub.getTableName());
 				subTable.setClassName(sub.getClassName());
 				subTable.setRelationKeys(sub.getRelationKeys());
+				subTable.setParent(table);
 				subTable.setTemplateModel(TemplateModelUtil.getTemplateModel(sub));
 				subMap.put(sub.getTableName(), subTable);
 				subTables.add(subTable);
@@ -49,6 +50,7 @@ public class GeneratorOneToMany extends Generator {
 				t.setClassName(subTableVo.getClassName());
 				t.setRelationKeys(subTableVo.getRelationKeys());
 				t.isSubTable = true;
+				t.setParent(table);
 				t.setTemplateModel(TemplateModelUtil.getTemplateModel(subTableVo));
 				generateFile(config, t, templateFiles);
 			}

@@ -188,6 +188,37 @@ public class ${className}Controller extends AbstractController<${className}, ${p
 			return error(getMessage("msg.error.add"));
 		}
 	}
+	@RequestMapping(value = "/edit${child.className}Form", method = { RequestMethod.GET, RequestMethod.POST })
+	@ResponseBody
+	public ModelAndView edit${child.className}Form(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		<#list child.primaryKeyColumns as pkColumn>
+		${pkColumn.javaType} ${pkColumn.columnNameLowerCase} = ${pkColumn.javaType}.valueOf(request.getParameter("${pkColumn.columnNameLowerCase}"));
+		</#list> 
+		${child.className} ${child.classNameLowerCase} = ${classNameLowerCase}Service.get${child.className}ByPk(<#list child.primaryKeyColumns as pkColumn>${pkColumn.columnNameLowerCase}<#if pkColumn_has_next>, </#if></#list>);
+		request.setAttribute("${child.classNameLowerCase}", ${child.classNameLowerCase});
+		request.setAttribute("action", "${classNameLowerCase}/update${child.className}");
+		return new ModelAndView("${child.templateModel.subPackagePath}/${child.classNameLowerCase}_edit");
+	}
+	
+	@RequestMapping(value = "/update${child.className}", method = { RequestMethod.GET, RequestMethod.POST })
+	@ResponseBody
+	public Json update${child.className}(${child.className} ${child.classNameLowerCase}, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		try {
+			int updatedRecords = ${classNameLowerCase}Service.modify${child.className}(${child.classNameLowerCase});
+			if (updatedRecords <= 0) {
+				return error(getMessage("msg.error.add"));
+			}
+			<#if template_type == 'model'> 
+			return success(getMessage("msg.success.update"));
+			<#else>
+			return success("${classNameLowerCase}/index",getMessage("msg.success.update"));
+			</#if>
+		} catch (Exception e) {
+			e.printStackTrace();
+			return error(getMessage("msg.error.update"));
+		}
+	}
+	
 
 	@RequestMapping(value = "/delete${child.className}", method = { RequestMethod.GET, RequestMethod.POST })
 	@ResponseBody

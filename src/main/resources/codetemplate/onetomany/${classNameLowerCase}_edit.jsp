@@ -16,11 +16,22 @@
 				<#elseif table.isSubTable && column==table.relationColumn>
 				<li>
 					<label><spring:message code="${classNameAllLowerCase}.txt.${column.columnNameAllLowerCase}"/>:</label>
-					<#if column.javaType == "java.util.Date">
-					<input type="text" name="${column.columnNameLowerCase}" id="${column.columnNameLowerCase}" value="<fmt:formatDate value="<#noparse>${</#noparse>${table.relationColumn.columnNameLowerCase}<#noparse>}</#noparse>" pattern="yyyy-MM-dd" />" class="date" readonly="readonly" validate="{required:true}" />
-					<#else>
-					<input type="text" name="${column.columnNameLowerCase}" id="${column.columnNameLowerCase}" value="<#noparse>${</#noparse>${table.relationColumn.columnNameLowerCase}<#noparse>}</#noparse>" readonly="readonly" validate="{required:true}" />
-					</#if>
+					<c:choose>
+						<c:when test="<#noparse>${</#noparse>not empty ${classNameLowerCase}<#noparse>}</#noparse>">
+						<#if column.javaType == "java.util.Date">
+						<input type="text" name="${column.columnNameLowerCase}" id="${column.columnNameLowerCase}" value="<fmt:formatDate value="<#noparse>${</#noparse>${classNameLowerCase}.${table.relationColumn.columnNameLowerCase}<#noparse>}</#noparse>" pattern="yyyy-MM-dd" />" class="date" readonly="readonly" validate="{required:true}" />
+						<#else>
+						<input type="text" name="${column.columnNameLowerCase}" id="${column.columnNameLowerCase}" value="<#noparse>${</#noparse>${classNameLowerCase}.${table.relationColumn.columnNameLowerCase}<#noparse>}</#noparse>" readonly="readonly" validate="{required:true}" />
+						</#if>
+						</c:when>
+						<c:otherwise>
+						<#if column.javaType == "java.util.Date">
+						<input type="text" name="${column.columnNameLowerCase}" id="${column.columnNameLowerCase}" value="<fmt:formatDate value="<#noparse>${</#noparse>${table.relationColumn.columnNameLowerCase}<#noparse>}</#noparse>" pattern="yyyy-MM-dd" />" class="date" readonly="readonly" validate="{required:true}" />
+						<#else>
+						<input type="text" name="${column.columnNameLowerCase}" id="${column.columnNameLowerCase}" value="<#noparse>${</#noparse>${table.relationColumn.columnNameLowerCase}<#noparse>}</#noparse>" readonly="readonly" validate="{required:true}" />
+						</#if>
+						</c:otherwise>
+					</c:choose>
 				</li>
 				<#else>
 				<li>

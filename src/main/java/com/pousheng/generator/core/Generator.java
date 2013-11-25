@@ -26,6 +26,7 @@ public class Generator {
 	// 生成文件
 	protected void generateFile(Configuration config, Table table, List<File> templateFiles) {
 		try {
+			System.out.println("#############-------------开始生成代码-----------#############");
 			for (File templateFile : templateFiles) {
 				String templateRelativePath = templateFile.getName();
 				if (templateFile.isDirectory() || templateFile.isHidden())
@@ -42,8 +43,10 @@ public class Generator {
 					} else {
 						FileUtil.writeStringToFile(targetFile, result, false);
 					}
+					System.out.println("#############---模板文件---> " + templateRelativePath + " ----生成----> " + targetFile.getName());
 				}
 			}
+			System.out.println("#############-------------代码生成结束-----------#############");
 
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -79,17 +79,21 @@
 				<a class="btn" name="delete" id="delete" data-rel='btn' href="#">
 					<i class="icon-trash"></i><spring:message code="common.btn.delete"/>
 				</a> 
+				<a class="btn" name="search" id="search" data-rel='btn'> 
+					<i class="icon-search"></i><spring:message code="common.btn.search"/>
+				</a>
 				<#list table.childrens as child>
 				<a class="btn" name="add${child.className }" id="add${child.className }" href="#" data-rel='btn' >
 					<i class="icon-plus"></i><spring:message code="${classNameAllLowerCase}.txt.add${child.classNameAllLowerCase}"/>
+				</a>
+				<a class="btn" name="edit${child.className }" id="edit${child.className }" href="#" data-rel='btn' >
+					<i class="icon-edit"></i><spring:message code="${classNameAllLowerCase}.txt.edit${child.classNameAllLowerCase}"/>
 				</a>
 				<a class="btn" name="delete${child.className }" id="delete${child.className }" data-rel='btn' href="#">
 					<i class="icon-trash"></i><spring:message code="${classNameAllLowerCase}.txt.delete${child.classNameAllLowerCase}"/>
 				</a> 
 			 	</#list>
-				<a class="btn" name="search" id="search" data-rel='btn'> 
-					<i class="icon-search"></i><spring:message code="common.btn.search"/>
-				</a>
+				
 			</div>
 		</div>
 		<div class="datagrid-search">

@@ -31,6 +31,7 @@ public class Table implements Model {
 	private List<Column> primaryKeyColumns = new ArrayList<Column>(0);
 	private String[] relationKeys;
 	private List<Table> childrens = new ArrayList<Table>(0);
+	private Table parent;
 	private String ownerSynonymName;
 	private String catalog = DbUtils.getInstance().catalog;
 	private String schema = DbUtils.getInstance().schema;
@@ -219,19 +220,22 @@ public class Table implements Model {
 		this.relationKeys = relationKeys;
 	}
 
-	public Column getParentRelationColumn() {
+	public Column getParentRelationColumn() throws Exception {
 		Column parentRelationColumn = null;
 		if (getRelationKeys() != null) {
-			for (Column column : columns) {
+			for (Column column : getParent().getColumns()) {
 				if (column.getSqlName().equals(getRelationKeys()[0])) {
 					parentRelationColumn = column;
 					break;
 				}
 			}
 		}
+		if(parentRelationColumn ==null) {
+			throw new Exception("设置的主表的关联外键不存在");
+		}
 		return parentRelationColumn;
 	}
-	public Column getRelationColumn() {
+	public Column getRelationColumn() throws Exception {
 		Column relationColumn = null;
 		if (getRelationKeys() != null) {
 			for (Column column : columns) {
@@ -240,6 +244,9 @@ public class Table implements Model {
 					break;
 				}
 			}
+		}
+		if(relationColumn ==null) {
+			throw new Exception("关联的外键不存在");
 		}
 		return relationColumn;
 	}
@@ -260,5 +267,13 @@ public class Table implements Model {
 
 	public void setSubTable(boolean isSubTable) {
 		this.isSubTable = isSubTable;
+	}
+
+	public Table getParent() {
+		return parent;
+	}
+
+	public void setParent(Table parent) {
+		this.parent = parent;
 	}
 }

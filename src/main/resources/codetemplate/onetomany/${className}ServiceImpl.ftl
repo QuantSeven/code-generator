@@ -120,6 +120,13 @@ public class ${className}ServiceImpl implements ${className}Service {
 	public Integer create${child.className}(${child.className} ${child.classNameLowerCase}) {
 		return ${child.classNameLowerCase}Dao.insert(${child.classNameLowerCase});
 	}
+	/*
+	 * (non-Javadoc)
+	 * @see ${service_package}.${className}Service#modify${child.className}(${child.className})
+	 */
+	public Integer modify${child.className}(${child.className} ${child.classNameLowerCase}) {
+		return ${child.classNameLowerCase}Dao.update(${child.classNameLowerCase});
+	}
 	
 	/*
 	 * (non-Javadoc)

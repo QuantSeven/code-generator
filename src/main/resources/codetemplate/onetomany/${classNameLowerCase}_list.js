@@ -230,9 +230,9 @@ $("document").readyfn(function() {
 		subModelDialog(options);
 	});
 	$("#${classNameLowerCase}-toolbar").on("click","#edit${child.className}",function(){
-		selectItem = ${classNameLowerCase}ListGrid.datagrid("getSelect");
-		if(!selectItem.${child.parentRelationColumn.columnNameLowerCase}){
-			pousheng.warnMsg(i18n${className}.msg.noselect);
+		select${child.className}Item = ${child.classNameLowerCase}ListGrid.datagrid("getSelect");
+		if(!select${child.className}Item.${child.relationColumn.columnNameLowerCase}){
+			pousheng.warnMsg(i18n${className}.msg.noselect${child.classNameAllLowerCase});
 			return;
 		}
 		var options = {
